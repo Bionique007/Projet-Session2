@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Bionics Events 2025</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #ffa500, #6a0dad);
+            color: white;
+            text-align: center;
+        }
+        header {
+            padding: 50px 20px 10px;
+            position: relative;
+        }
+        header h1 {
+            font-size: 48px;
+            margin: 0;
+        }
+        header h3 {
+            font-weight: normal;
+            margin: 10px 0;
+        }
+        .events {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 40px 20px;
+            gap: 20px;
+        }
+        .event {
+            background-color: #ffffff11;
+            border: 2px solid orange;
+            border-radius: 10px;
+            width: 260px;
+            padding: 20px;
+            box-shadow: 0 0 10px #00000033;
+        }
+        .event h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .event p {
+            font-size: 14px;
+            color: #ddd;
+        }
+        .event .date {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #ffcc66;
+        }
+        .event button, .add-event-button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: orange;
+            border: none;
+            border-radius: 5px;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .event button:hover, .add-event-button:hover {
+            background-color: #ff8800;
+        }
+    </style>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div style="position: relative; z-index: 1000;">
+            {% for category, message in messages %}
+            <div style="
+                background-color: {% if category == 'success' %}#d4edda{% elif category == 'danger' %}#f8d7da{% else %}#fff3cd{% endif %};
+                color: {% if category == 'success' %}#155724{% elif category == 'danger' %}#721c24{% else %}#856404{% endif %};
+                padding: 15px;
+                margin: 10px auto;
+                border-radius: 5px;
+                width: 80%;
+                box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            ">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    <header>
+        <h1>BIONICS EVENTS 2025</h1>
+        <h3>Les meilleures conférences pour TI averti</h3>
+        <button class="add-event-button" onclick="location.href='{{ url_for('admin.add_event') }}'">Ajouter un Événement</button>
+        <button class="add-event-button" onclick="location.href='{{ url_for('admin.admin_dashboard') }}'">Tableau de bord</button>
+        <button class="add-event-button" onclick="location.href='{{ url_for('admin.admin_logout') }}'">Déconnexion</button>
+    </header>
+
+    <section class="events">
+        {% for event in events %}
+        <div class="event">
+            <h2>{{ event.nom }}</h2>
+            <p>{{ event.description }}</p>
+            <div class="date">📅 {{ event.date.strftime('%d %B %Y') }}</div>
+            <p>Prix : {{ event.cost }}$</p>
+            <a href="{{ url_for('admin.edit_event', event_id=event.id) }}"><button>Modifier</button></a>
+            <!-- Hidden Form for DELETE Action -->
+            <form method="POST" action="{{ url_for('admin.delete_event_admin', event_id=event.id) }}" style="display: inline;">
+                <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')">Supprimer</button>
+            </form>
+        </div>
+        {% endfor %}
+    </section>
+</body>
+</html>

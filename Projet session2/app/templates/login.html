@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #6a0dad, #ffcc66);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        /* Flash messages styling */
+        div > div {
+            font-size: 16px;
+            margin: 10px auto;
+            padding: 15px;
+            border-radius: 5px;
+            width: 80%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        form {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            display: inline-block;
+            text-align: left;
+            color: black;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #571891;
+            transform: scale(1.05);
+        }
+
+        p {
+            color: #ffffff;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #ffcc66;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Connexion à Bionics Events</h1>
+
+    <!-- Section pour afficher les messages flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div>
+            {% for category, message in messages %}
+            <div style="
+                background-color: {% if category == 'success' %}#d4edda{% elif category == 'danger' %}#f8d7da{% else %}#fff3cd{% endif %};
+                color: {% if category == 'success' %}#155724{% elif category == 'danger' %}#721c24{% else %}#856404{% endif %};
+                padding: 15px;
+                margin: 10px auto;
+                border-radius: 5px;
+                width: 80%;
+                box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            ">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Formulaire de connexion -->
+    <form method="post" action="{{ url_for('main.login') }}">
+        <label>Email : <input type="email" name="email" required></label><br>
+        <label>Mot de passe : <input type="password" name="mot_de_passe" required></label><br>
+        <button type="submit">Se connecter</button>
+    </form>
+
+    <p><a class="button" href="{{ url_for('main.home') }}">Retour à l'accueil</a></p>
+</body>
+</html>

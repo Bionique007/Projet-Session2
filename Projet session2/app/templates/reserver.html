@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Réservation</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #ffcc66, #6a0dad);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 40px;
+        }
+    
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+    
+        p {
+            font-size: 16px;
+            color: #f0f0f0;
+            margin: 10px 0;
+        }
+    
+        form {
+            margin-top: 30px;
+        }
+    
+        button {
+            padding: 10px 20px;
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        button:hover {
+            background-color: #571891;
+            transform: scale(1.05);
+        }
+    
+        a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 10px 5px;
+        }
+    
+        a.button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff8800;
+            color: white;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+    
+        a.button:hover {
+            background-color: #e67300;
+        }
+    
+        .link-container p, a {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Réservation pour : {{ event.nom}}</h1>
+    <p>Date : {{ event.date }}</p>
+
+    <!-- Utilisation du coût dynamique -->
+    <p>Coût : {{ event.cost }}$</p>
+
+    <form method="post" action="{{ url_for('main.paiement', event_id=event_id) }}">
+        <button type="submit">Confirmer la réservation</button>
+    </form>
+
+    <p><a class="button" href="{{ url_for('main.dashboard') }}">Retour au tableau de bord</a>
+    <a class="button" href="{{ url_for('main.home') }}">Retour à l'accueil</a>
+</body>
+</html>

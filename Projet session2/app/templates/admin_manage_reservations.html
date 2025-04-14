@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gérer les réservations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #ffa500, #6a0dad);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .dashboard {
+            background: white;
+            padding: 30px;
+            max-width: 1000px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: black;
+        }
+        h1 {
+            color: #6a0dad;
+        }
+        .reservation {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            transition: box-shadow 0.3s ease;
+        }
+        .reservation:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        button {
+            padding: 10px 15px;
+            background: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #cc0000;
+        }
+        .actions a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background: #6a0dad;
+            color: white;
+            border-radius: 5px;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .actions a:hover {
+            background: #571891;
+        }
+    </style>
+</head>
+<body>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div style="margin-bottom: 20px;">
+            {% for category, message in messages %}
+            <div style="
+                background-color: {% if category == 'success' %}#d4edda{% elif category == 'danger' %}#f8d7da{% elif category == 'warning' %}#fff3cd{% else %}#cce5ff{% endif %};
+                color: {% if category == 'success' %}#155724{% elif category == 'danger' %}#721c24{% elif category == 'warning' %}#856404{% else %}#004085{% endif %};
+                padding: 15px;
+                border-radius: 5px;
+                width: 80%;
+                margin: auto;
+                text-align: center;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                font-weight: bold;
+            ">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+        <h1>Gérer les réservations</h1>
+        {% if reservations %}
+            <h3>Liste des réservations :</h3>
+            {% for reservation in reservations %}
+                <div class="reservation">
+                    <h3>{{ reservation.nom_utilisateur }}</h3>
+                    <p>Événement : {{ reservation.titre_evenement }}</p>
+                    <p>Date : {{ reservation.date_evenement }}</p>
+                    <form method="post" action="{{ url_for('admin.delete_reservation_admin', reservation_id=reservation.id) }}">
+                        <button type="submit">Supprimer</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Aucune réservation à afficher.</p>
+        {% endif %}
+        <div class="actions">
+            <a href="{{ url_for('admin.admin_dashboard') }}">Retour au tableau de bord admin</a>
+        </div>
+    </div>
+</body>
+</html>

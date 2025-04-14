@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Paiement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            background-color: #f2f2f2;
+        }
+        form {
+            background: white;
+            padding: 30px;
+            display: inline-block;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        input {
+            padding: 10px;
+            margin: 10px;
+            width: 250px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #ff8800;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        h1 {
+            color: #333;
+        }
+        .flashes {
+            width: 80%;
+            margin: 20px auto;
+            list-style: none;
+            padding: 0;
+        }
+        .flashes li {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #ff8800;
+        }
+    </style>
+</head>
+<body>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+    <h1>Votre paiement pour : {{ event.nom }}</h1>
+    <p><strong>Date :</strong> {{ event.date.strftime('%d %B %Y') }}</p>
+    <p><strong>Prix :</strong> {{ event.cost }}$</p>
+
+    <form method="post">
+        <input type="text" name="nom_carte" placeholder="Nom sur la carte" required><br>
+        <input type="text" name="numero_carte" placeholder="Numéro de carte" required><br>
+        <button type="submit">Payer</button>
+    </form>
+    
+    <p><a href="{{ url_for('main.dashboard') }}">Retour au tableau de bord</a></p>
+    <a href="{{ url_for('main.home') }}">Retour à l'accueil</a>
+</body>
+</html>
